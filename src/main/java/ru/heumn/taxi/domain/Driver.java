@@ -1,4 +1,4 @@
-package ru.heumn.rest.domain;
+package ru.heumn.taxi.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -26,12 +26,10 @@ public class Driver {
     @Column(name = "Last_Name")
     String LastName;
 
-    @OneToMany(mappedBy = "driver")
+    @ManyToMany
     @JsonManagedReference
     List<Car> car = new ArrayList<>();
 
-    public void setCars(List<Car> cars){
-        cars.forEach(car -> car.setDriver(this));
-        this.car = cars;
-    }
+    @Column(name = "active_order")
+    boolean activeOrder;
 }

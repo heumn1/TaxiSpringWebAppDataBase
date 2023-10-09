@@ -1,4 +1,4 @@
-package ru.heumn.rest.domain;
+package ru.heumn.taxi.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

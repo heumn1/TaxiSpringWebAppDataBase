@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}" />
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+    <form th:action="@{/account/help}" th:method="POST" >
+        <button type="submit" class="btn btn-primary btn-lg">метод</button>
+    </form>
+
+<div th:insert="~{footer :: footer}"></div>
+</body>
+</html>

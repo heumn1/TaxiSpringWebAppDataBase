@@ -1,4 +1,4 @@
-package ru.heumn.rest.domain;
+package ru.heumn.taxi.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -16,7 +19,6 @@ import lombok.experimental.FieldDefaults;
 @Inheritance
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public abstract class Car {
-
     @Column(name = "name_car")
     String name;
 
@@ -29,9 +31,9 @@ public abstract class Car {
     @Column(name = "seats_car")
     String seats;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "car")
     @JsonBackReference
-    Driver driver;
+    List<Driver> driver = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

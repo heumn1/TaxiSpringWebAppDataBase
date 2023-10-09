@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Таксист Воронежа</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}" />
+</head>
+<body>
+
+<div id="username-page">
+    <div class="username-page-container">
+        <h1 class="title">Type your username to enter the Chatroom</h1>
+        <form id="usernameForm" name="usernameForm">
+            <div class="form-group">
+                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" />
+            </div>
+            <div id="asd" name="asd">
+                <input type="text" id="zxc" placeholder="Username" autocomplete="off" class="form-control" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="accent username-submit">Start Chatting</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container py-3">
+    <div th:insert="~{header :: header}"></div>
+
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <h1 class="display-4 fw-normal text-body-emphasis">Таксист Воронежа</h1>
+        <p class="fs-5 text-body-secondary">Дешевое такси, которое доставит вас куда угодно в Воронежской области!</p>
+    </div>
+
+    <h2 class="display-6 text-center mb-4">Почему стоит выбрать нас</h2>
+
+        <label class="display-6 text-width mb-4">
+    Безопасность и комфорт является одними из главных приоритетов для всех компаний.
+    Мы заботимся о безопасности наших пассажиров и водителей, используя только
+    проверенные и сертифицированные автомобили, а также обученных и опытных водителей.
+    Все наши водители проходят строгий отбор и проверку, чтобы гарантировать безопасность и комфорт
+    наших пассажиров. Кроме того, мы следим за тем, чтобы наши автомобили были в хорошем
+    состоянии и регулярно проходили техническое обслуживание.
+        </label>
+
+    <h2 class="display-6 text-center mb-4">Мы предалагаем</h2>
+    <br/>
+    <main>
+        <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Эконом</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">ЦЕНА СТРОИТСЯ</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Просто дайте мне обычную поездку</li>
+                            <br/>
+                            <br/>
+                        </ul>
+                        <a type="button" class="w-100 btn btn-lg btn-outline-primary" href="/order">Заказать</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Люкс</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">ЦЕНА СТРОИТСЯ</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Есть детское кресло</li>
+                            <li>Высокий уровень комфорта</li>
+                            <li>Быстрая подача</li>
+                        </ul>
+                        <a type="button" class="w-100 btn btn-lg btn-primary" href="/order" >Заказать</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                    <div class="card-header py-3 text-bg-primary border-primary">
+                        <h4 class="my-0 fw-normal">Грузовой</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title">ЦЕНА СТРОИТСЯ</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            <li>Можно ехать до 15 человек</li>
+                            <br/>
+                            <br/>
+                        </ul>
+                        <a type="button" class="w-100 btn btn-lg btn-primary" href="/order">Заказать</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:insert="~{footer :: footer}"></div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
