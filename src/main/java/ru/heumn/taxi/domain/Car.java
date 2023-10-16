@@ -18,9 +18,9 @@ import java.util.List;
 @Entity
 @Inheritance
 @FieldDefaults(level= AccessLevel.PRIVATE)
-public abstract class Car {
-    @Column(name = "name_car")
-    String name;
+public class Car {
+    @Column(name = "number_car")
+    String number;
 
     @Column(name = "model_car")
     String model;
@@ -31,12 +31,13 @@ public abstract class Car {
     @Column(name = "seats_car")
     String seats;
 
-    @ManyToMany(mappedBy = "car")
-    @JsonBackReference
-    List<Driver> driver = new ArrayList<>();
+    @Column(name = "type_car")
+    String type;
+
+    @OneToOne()
+    Driver driver;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
     Long id;
 }

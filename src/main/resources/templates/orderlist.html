@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Список заказов</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="/css/index.css" th:href="@{/css/index.css}"/>
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+<span th:text="${noOrders}">Заказов пока нет</span>
+<div th:each="el : ${trips}">
+    <form th:action="@{/order/orderlist/{id} (id=${el.id}) }"  th:method="POST" class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <b class="nav-link active" th:text="'Тип такси: ' + ${el.type}">t1</b>
+                </li>
+                <li class="nav-item">
+                    <b class="nav-link active" th:text="'Способ оплаты: ' + ${el.paymentMethod}">t1</b>
+                </li>
+                <b class="nav-item">
+                    <b class="nav-link active" th:text="'Адрес: ' + ${el.address}">t1</b>
+                </b>
+                <b class="nav-item">
+                    <b class="nav-link active" th:text="'Пользователь: ' + ${el.user.username}">t1</b>
+                </b>
+            </ul>
+        </div>
+        <div class="container-fluid">
+            <input class="btn btn-primary" type="submit" value="Взять заказ">
+        </div>
+    </form>
+</div>
+<div th:insert="~{footer :: footer}"></div>
+</body>
+</html>

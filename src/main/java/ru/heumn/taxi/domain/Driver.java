@@ -26,9 +26,8 @@ public class Driver {
     @Column(name = "Last_Name")
     String LastName;
 
-    @ManyToMany
-    @JsonManagedReference
-    List<Car> car = new ArrayList<>();
+    @OneToOne
+    User idUser;
 
     @Column(name = "active_order")
     boolean activeOrder;

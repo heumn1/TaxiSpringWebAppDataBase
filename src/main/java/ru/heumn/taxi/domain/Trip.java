@@ -3,10 +3,6 @@ package ru.heumn.taxi.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.context.annotation.Primary;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Entity
 @ToString
@@ -27,6 +23,10 @@ public class Trip {
     Driver driver;
 
     String price;
+
+    Boolean active;
+
+    String sessionRequest;
 
     @Column(name = "type_car")
     @NotEmpty(message = "Вы должны выбрать тип заказываемого вами такси")
