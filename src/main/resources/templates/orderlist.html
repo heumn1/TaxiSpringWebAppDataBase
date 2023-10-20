@@ -21,7 +21,13 @@
                     <b class="nav-link active" th:text="'Способ оплаты: ' + ${el.paymentMethod}">t1</b>
                 </li>
                 <b class="nav-item">
-                    <b class="nav-link active" th:text="'Адрес: ' + ${el.address}">t1</b>
+                    <b class="nav-link active" th:text="'Начало маршрута: ' + ${el.addressStart}">t1</b>
+                </b>
+                <b class="nav-item">
+                    <b class="nav-link active" th:text="'Конец маршрута: ' + ${el.addressFinish}">t1</b>
+                </b>
+                <b class="nav-item">
+                    <b class="nav-link active" th:text="'Цена: ' + ${el.price}">t1</b>
                 </b>
                 <b class="nav-item">
                     <b class="nav-link active" th:text="'Пользователь: ' + ${el.user.username}">t1</b>

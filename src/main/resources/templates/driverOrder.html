@@ -1,20 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" media="all"
-          href="/css/index.css" th:href="@{/css/index.css}" />
+          href="/css/index.css" th:href="@{/css/index.css}"/>
 </head>
-<body>
 <body>
 <div th:insert="~{header :: header}"></div>
 <main class="container">
-    <div class="bg-body-tertiary p-5 rounded mt-3">
-        <h1>Активный заказ</h1>
-        <p class="lead"></p>
+    <h1 id="senderhtml" th:text="*{userDriver}"></h1>
+    <div id="searchDriver">
+        <span class="display-4 fw-normal text-body-emphasis" th:text="${noOrder}"/> </br>
+        <div th:if="${trip != null}">
+            <span class="display-6 text-center mb-4" th:text="'Начало маршрута:' + ${trip?.addressStart}"/> </br>
+            <span class="display-6 text-center mb-4" th:text="'Конец маршрута:' + ${trip?.addressFinish}"/> </br>
+            <span class="display-6 text-center mb-4" th:text="'Способ оплаты:' + ${trip?.paymentMethod}"/> </br>
+            <span class="display-6 text-center mb-4" th:text="'Цена:' + ${trip?.price}"/> </br>
+            <span class="display-6 text-center mb-4" th:text="'Заказчик:' + ${trip?.user?.username}"/> </br>
+            <form th:action="@{/driver/activeorder/{id} (id=${trip?.id})}" th:method="POST">
+                <button type="submit">Завершить поездку</button>
+            </form>
+        </div>
+    </div>
+    <div class="bg-body-tertiary p-5 rounded mt-3" id="response" >
     </div>
 </main>
 <div th:insert="~{footer :: footer}"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>

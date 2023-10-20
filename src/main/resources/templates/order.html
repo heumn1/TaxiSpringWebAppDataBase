@@ -11,7 +11,6 @@
 
 <div class="container">
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
         <h2>Checkout form</h2>
         <p class="lead">Впишите нужны данные для того чтобы мы могли доставить вам машину как можно быстрее.</p>
     </div>
@@ -32,11 +31,10 @@
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Тип заказа:</h4>
             <form class="needs-validation" th:action="@{/order}" th:object="${Trip}" th:method="POST">
-
                 <fieldset id="buttons">
                     <div class="form-label" style="color:red" th:errors="*{type}">error</div>
                     <div class="custom-control custom-radio custom-control-inline">
-                        <input type="radio" id="Эконом" th:field="*{type}" value="Эконом" class="custom-control-input" name="buttons">
+                        <input type="radio" id="Эконом" th:field="*{type}" value="Эконом" class="custom-control-input" name="buttons" required>
                         <label class="custom-control-label" for="Эконом" >Эконом</label> </br>
                         <input type="radio" id="Люкс" th:field="*{type}" value="Люкс" class="custom-control-input" name="buttons">
                         <label class="custom-control-label" for="Люкс" >Люкс</label> </br>
@@ -45,20 +43,28 @@
                     </div>
                 </fieldset>
                 <hr class="mb-4">
-                <h4 class="mb-3">Адрес:</h4>
-
+                <h4 class="mb-3">От куда поедем:</h4>
                 <div class="mb-3">
-                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">error</div>
-                    <input type="text" class="form-control" th:field="*{address}" id="address" placeholder="1234 Main St" required="">
-                    <div class="invalid-feedback">
-                        Please enter your address.
-                    </div>
+                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('addressStart')}" th:errors="*{addressStart}">error</div>
+                    <input type="text" class="form-control" th:field="*{addressStart}" id="addressStart" required>
                 </div>
                 </hr>
                 <hr class="mb-4">
-
+                <h4 class="mb-3">Куда поедем:</h4>
+                <div class="mb-3">
+                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('addressFinish')}" th:errors="*{addressFinish}">error</div>
+                    <input type="text" class="form-control" th:field="*{addressFinish}" id="addressFinish" required>
+                </div>
+                </hr>
+                <hr class="mb-4">
+                <h4 class="mb-3">Поставьте желаемую цену:</h4>
+                <div class="mb-3">
+                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">error</div>
+                    <input type="text" class="form-control" th:field="*{price}" id="price" required>
+                </div>
+                </hr>
+                <hr class="mb-4">
                 <h4 class="mb-3">Payment</h4>
-
                 <div class="d-block my-3">
                     <div class="form-label" style="color:red" th:errors="*{paymentMethod}">error</div>
                     <div class="custom-control custom-radio">

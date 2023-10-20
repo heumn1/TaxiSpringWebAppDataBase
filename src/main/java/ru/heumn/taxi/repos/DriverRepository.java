@@ -7,7 +7,5 @@ import ru.heumn.taxi.domain.User;
 
 public interface DriverRepository extends CrudRepository<Driver, Long> {
     Driver findByActiveOrderIsTrue();
-
-
     Driver findByIdUser(User user);
 }

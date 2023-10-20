@@ -1,39 +1,43 @@
 'use strict';
 
-var usernameForm = document.querySelector('#usernameForm');
-var asd = document.querySelector('#asd');
-
-
+var searchDriver = document.querySelector('#searchDriver');
 var stompClient = null;
-var username = null;
+
+connect();
 
 
-function connect(event) {
-    username = document.querySelector('#name').value.trim();
-
+function connect() {
     var socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
-
-    stompClient.connect({}, onConnected);
-
-    event.preventDefault();
+    stompClient.connect({}, onConnected, onError);
 }
 
 
 function onConnected() {
-    // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public');
-
-    //asd.classList.add(asd.classList + 'gaga')
-
-    // Tell your username to the server
-    stompClient.send("/app/chat.sendMessage",
-        {},
-        JSON.stringify({sender: username, type: 'JOIN'})
-    )
+    stompClient.subscribe('/topic/public', onMessageReceived);
 }
 
 
+function onError(error) {
+}
 
 
-usernameForm.addEventListener('submit', connect, true)
+function onMessageReceived(payload) {
+    var message = JSON.parse(payload.body);
+    var senderhtml = document.querySelector('#senderhtml');
+
+    console.log("текст1" + senderhtml.textContent);
+
+    if(message.sender === senderhtml.textContent) {
+        searchDriver.classList.remove("bg-body-tertiary-p-5");
+        searchDriver.classList.add("d-none");
+        var responseElement = document.querySelector('#response');
+        responseElement.classList.add("bg-body-tertiary-p-5");
+        var textbox = document.createElement("h1");
+        responseElement.appendChild(textbox);
+        textbox.innerText = `${message.content}`;
+
+        responseElement.appendChild(textbox);
+    }
+}
+

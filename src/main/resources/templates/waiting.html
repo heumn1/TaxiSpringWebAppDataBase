@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,27 +7,22 @@
         href="/css/index.css" th:href="@{/css/index.css}" />
 </head>
 <body>
+<div th:insert="~{header :: header}"></div>
 <main class="container">
-    <div class="bg-body-tertiary p-5 rounded mt-3">
+    <div class="bg-body-tertiary-p-5" id="searchDriver" >
+        <h1 id="senderhtml" th:text="*{Trip.user.username}"></h1>
         <h1>Поиск водителя...</h1>
         <p class="lead">Это может занять несколько минут, пожалуйства подождите</p>
-        <a class="btn btn-lg btn-primary" href="/" role="button">Отменить заказ</a>
     </div>
+    <div class="bg-body-tertiary p-5 rounded mt-3" id="response" >
+    </div>
+    <form th:method="POST" th:action="@{/order/waiting}">
+        <button class="btn btn-lg btn-primary" type="submit">Отменить заказ</button>
+    </form>
 </main>
-<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand">Таксист Воронежа</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:insert="~{footer :: footer}"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>

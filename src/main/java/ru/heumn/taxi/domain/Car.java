@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.heumn.taxi.repos.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
 @Inheritance
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class Car {
+
     @Column(name = "number_car")
     String number;
 
@@ -40,4 +43,13 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
+
+    @Override
+    public String toString() {
+        return  " Номер: " + number + '\n' +
+                " Модель: " + model + '\n' +
+                " число сидений: " + seats + '\n' +
+                " Водитель: " + driver.getFirstName();
+    }
 }

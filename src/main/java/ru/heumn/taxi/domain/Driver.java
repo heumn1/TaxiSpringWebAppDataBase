@@ -16,6 +16,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Driver {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
@@ -23,11 +24,13 @@ public class Driver {
     @Column(name = "First_Name")
     String FirstName;
 
+
     @Column(name = "Last_Name")
     String LastName;
 
     @OneToOne
     User idUser;
+
 
     @Column(name = "active_order")
     boolean activeOrder;

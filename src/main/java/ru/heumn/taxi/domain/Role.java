@@ -3,7 +3,7 @@ package ru.heumn.taxi.domain;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER, ADMIN;
+    USER, DRIVER, ADMIN;
 
     @Override
     public String getAuthority() {
