@@ -14,7 +14,7 @@ public interface TripRepository extends CrudRepository<Trip, Long> {
 
     Trip findByUserAndActiveIsNull(User user);
 
-    Trip findByUserAndActiveIsTrue(User user);
-    Trip findByUser(User user);
+    List<Trip> findByUser(User user);
+    List<Trip> findAllByUser(User user);
 
 }

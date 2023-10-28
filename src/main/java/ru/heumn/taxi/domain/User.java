@@ -17,23 +17,21 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy  = GenerationType.SEQUENCE)
     private Long id;
-
     @NotEmpty(message = "Поле не должно быть пустым")
     @Size(min = 2, max = 30, message = "Ваше имя не должен быть меньше 2 и быть больше 30")
+    @Column(unique = true)
     private String username;
     @NotEmpty(message = "Поле не должно быть пустым")
     @Size(min = 8, max = 30, message = "пароль не должен быть меньше 8 и быть больше 30")
     private String password;
     private boolean active;
     @NotEmpty(message = "Поле не должно быть пустым")
+    @Column(unique = true)
     private String email;
     @NotEmpty(message = "Поле не должно быть пустым")
     @Size(min = 11, max = 11, message = "ошибка в поле number")
+    @Column(unique = true)
     private String number;
-
-
-
-
 
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

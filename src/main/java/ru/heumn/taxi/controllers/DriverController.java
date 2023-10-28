@@ -1,6 +1,7 @@
 package ru.heumn.taxi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/driver")
+@PreAuthorize("hasAuthority('DRIVER')")
 public class DriverController {
 
     @Autowired
@@ -27,10 +29,6 @@ public class DriverController {
     UserRepository userRepository;
     @Autowired
     DriverRepository driverRepository;
-    @GetMapping("/account")
-    public String account(){
-        return "accountDriver";
-    }
 
     @GetMapping("/activeorder")
     public String activeOrder(Principal principal, Model model){
@@ -51,6 +49,7 @@ public class DriverController {
 
         return "driverOrder";
     }
+
 
     @PostMapping("/activeorder/{id}")
     public String endOrder(@PathVariable Long id, Principal principal){

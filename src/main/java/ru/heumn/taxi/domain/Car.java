@@ -52,4 +52,5 @@ public class Car {
                 " число сидений: " + seats + '\n' +
                 " Водитель: " + driver.getFirstName();
     }
+
 }

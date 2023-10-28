@@ -1,18 +1,201 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" media="all"
-          href="/css/index.css" th:href="@{/css/index.css}" />
+          href="/css/index.css" th:href="@{/css/index.css}"/>
 </head>
 <body>
 <div th:insert="~{header :: header}"></div>
+<div class="container-fluid">
+    <ma class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <h1>Меню</h1>
+                    </li>
+                    <div>
+                        <li class="nav-item">
+                            <a class="w-100 btn btn-lg btn-primary" href="/logout">Выйти из аккаунта</a>
+                        </li>
+                        </br>
+                    </div>
+                    <div sec:authorize="hasAuthority('USER')" >
+                        <li class="nav-item">
+                            <form th:method="POST" th:action="@{/account/history}">
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">История заказов</button>
+                            </form>
+                        </li>
+                        </br>
+                    </div>
+                    <div sec:authorize="hasAuthority('USER')" >
+                        <li class="nav-item">
+                            <form th:method="POST" th:action="@{/account/info}">
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">Информация об аккаунте</button>
+                            </form>
+                        </li>
+                        </br>
+                    </div>
 
-    <form th:action="@{/account/help}" th:method="POST" >
-        <button type="submit" class="btn btn-primary btn-lg">метод</button>
-    </form>
+                    <div sec:authorize="hasAuthority('DRIVER')" >
+                        <li class="nav-item">
+                            <a class="w-100 btn btn-lg btn-primary" href="/driver/activeorder">Посмотреть действующий заказ</a>
+                        </li>
+                        </br>
+                    </div>
 
+                    <div sec:authorize="hasAuthority('ADMIN')" >
+                        <li class="nav-item">
+                            <form th:method="POST" th:action="@{/account/list}">
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">Пользователи</button>
+                            </form>
+                        </li>
+                        </br>
+                    </div>
+                </ul>
+            </div>
+        </nav>
+
+<!--        История заказов-->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div th:if="${History}" th:each="el : ${History}">
+                <div class="navbar navbar-expand-md navbar-dark bg-dark">
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li class="nav-item">
+                                <b class="nav-link active" th:text="'Тип такси: ' + ${el.type}">t1</b>
+                            </li>
+                            <li class="nav-item">
+                                <b class="nav-link active" th:text="'Способ оплаты: ' + ${el.paymentMethod}">t1</b>
+                            </li>
+                            <b class="nav-item">
+                                <b class="nav-link active" th:text="'Начало маршрута: ' + ${el.addressStart}">t1</b>
+                            </b>
+                            <b class="nav-item">
+                                <b class="nav-link active" th:text="'Конец маршрута: ' + ${el.addressFinish}">t1</b>
+                            </b>
+                            <b class="nav-item">
+                                <b class="nav-link active" th:text="'Цена: ' + ${el.price}">t1</b>
+                            </b>
+                            <b class="nav-item">
+                                <b class="nav-link active" th:text="'Статус: ' + ${el.status}">t1</b>
+                            </b>
+                            <b th:if="${el.driver != null}" class="nav-item">
+                                <b class="nav-link active" th:text="'Водитель: ' + ${el.driver.getLastName()}">t1</b>
+                            </b>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+<!--            Информация об аккаунте-->
+            <div th:if="${UserInfo}" class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal" th:value="${UserInfo.username}"></h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title" th:value="${UserInfo.email}"></h1>
+                </div>
+                <div th:if="${DriverInfo}" class="card-body">
+                    <h1 class="card-title pricing-card-title" th:value="${DriverInfo.getFirstName()}"></h1>
+                    <h1 class="card-title pricing-card-title" th:value="${DriverInfo.getLastName()}"></h1>
+                    <h1 class="card-title pricing-card-title" th:value="${CarInfo.toString()}"></h1>
+                </div>
+            </div>
+
+<!--            Список пользователей-->
+            <div th:if="${users}">
+                <form th:method="POST" th:action="@{/account/listSet}">
+                    <button type="submit" class="btn btn-primary">Назначить водителем</button>
+                </form>
+                </br>
+                <form th:method="POST" th:action="@{/account/drivers}">
+                    <button type="submit" class="btn btn-primary">Просмотр водителей</button>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">email</th>
+                        <th scope="col">Имя пользователя</th>
+                        <th scope="col">Роли</th>
+                        <th th:if="${SetUsersToDriver}" scope="col">Сделать водителем</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="el : ${users}">
+                    <tr>
+                        <td th:text="${el.id}"></td>
+                        <td th:text="${el.email}"></td>
+                        <td th:text="${el.username}"></td>
+                        <td th:text="${el.roles}"></td>
+                        <td th:if="${SetUsersToDriver}"><form th:method="POST" th:action="@{/account/listSet/{id}(id=${el.id})}"><button type="submit" class="btn btn-primary">Назначить</button></form></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+<!--            Список водителей-->
+            <div th:if="${drivers}">
+                <form th:method="POST" th:action="@{/account/list}">
+                    <button type="submit" class="btn btn-primary">Вернуться</button>
+                </form>
+                </br>
+                <form th:method="POST" th:action="@{/account/drivers/delete}">
+                    <button type="submit" class="btn btn-primary">Удалить водителя</button>
+                </form>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Фамилия</th>
+                        <th scope="col">Машина</th>
+                        <th th:if="${deleteDriver}" scope="col">Удалить водителя</th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="driver : ${drivers}">
+                    <tr>
+                        <td th:text="${driver.id}"></td>
+                        <td th:text="${driver.firstName}"></td>
+                        <td th:text="${driver.lastName}"></td>
+                        <td th:text="${driver.GetCar(CarRepository)}"></td>
+                        <td th:if="${deleteDriver}"><form th:method="POST" th:action="@{/account/drivers/delete/{id}(id=${driver.id})}"><button type="submit" class="btn btn-primary">Удалить</button></form></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+<!--            Назначить водителем-->
+            <div th:if="${userToDriver}">
+                <form th:method="POST" th:action="@{/account/list}">
+                    <button type="submit" class="btn btn-primary">Вернуться</button>
+                </form>
+                </br>
+                <span class="display-6 text-center mb-4" th:text="'Email:' + ${userToDriver.email}"/> </br>
+                <span class="display-6 text-center mb-4" th:text="'username:' + ${userToDriver.email}"/> </br>
+
+                <form class="form-inline">
+                    <div class="form-group mb-2">
+                        <label class="sr-only">Имя</label>
+                        <input type="text" readonly class="form-control-plaintext" >
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label for="inputPassword2" class="sr-only">Password</label>
+                        <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+                </form>
+
+
+            </div>
+
+        </main>
+    </ma>
+</div>
 <div th:insert="~{footer :: footer}"></div>
 </body>
 </html>

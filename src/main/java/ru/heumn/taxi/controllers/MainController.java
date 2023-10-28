@@ -46,7 +46,6 @@ public class MainController {
         return chatMessage;
     }
 
-
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, Model model) {
 
@@ -60,24 +59,6 @@ public class MainController {
         model.addAttribute("userError", error);
         return "login";
     }
-
-
-    @GetMapping("/account")
-    public String account(Principal principal){
-
-        String name = principal.getName();
-
-        if(driverRepository.findByIdUser(userRepository.findByUsername(name)) != null )
-        {
-            return "accountDriver";
-        }
-
-
-
-        return "account";
-    }
-
-
     @GetMapping("/test")
     public String gdsgds(HttpSession session) {
         String sessionId = session.getId();
@@ -93,5 +74,10 @@ public class MainController {
     @GetMapping("/registration")
     public String registration(@ModelAttribute("User") User user) {
         return "registration";
+    }
+
+    @GetMapping("/accessDenied")
+    public String accessDenied(){
+        return "accessDenied";
     }
 }

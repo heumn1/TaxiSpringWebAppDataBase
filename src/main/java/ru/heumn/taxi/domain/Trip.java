@@ -7,6 +7,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.Date;
+
+
 @Entity
 @ToString
 @NoArgsConstructor
@@ -49,4 +52,16 @@ public class Trip {
     @NotEmpty(message = "Вы должны выбрать способо оплаты")
     @Column(name = "payment_method")
     String paymentMethod;
+
+//    @Column(name = "Date_Trip")
+//    @Temporal(TemporalType.DATE)
+//    Date Date;
+//
+//    @Column(name = "Time_Start")
+//    @Temporal(TemporalType.TIME)
+//    Date TimeStart;
+//
+//    @Column(name = "Time_Finish")
+//    @Temporal(TemporalType.TIME)
+//    Date TimeFinish;
 }

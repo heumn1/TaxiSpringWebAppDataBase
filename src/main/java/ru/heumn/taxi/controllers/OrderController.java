@@ -7,6 +7,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import ru.heumn.taxi.repos.TripRepository;
 import ru.heumn.taxi.repos.UserRepository;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +82,7 @@ public class OrderController {
         return "waiting";
     }
 
+    @PreAuthorize("hasRole('DRIVER')")
     @GetMapping("/orderlist")
     public String orderlist(Model model, @ModelAttribute("Trip") Trip trip, Principal principal){
 
@@ -104,6 +107,7 @@ public class OrderController {
         return "orderlist";
     }
 
+    @PreAuthorize("hasRole('DRIVER')")
     @PostMapping("/orderlist/{id}")
     public String orderSubmit(@PathVariable Long id, Principal principal,@Payload ChatMessage chatMessage){
         Optional<Trip> trip = tripRepository.findById(id);
@@ -113,6 +117,7 @@ public class OrderController {
             trip.get().setDriver(driverRepository.findByIdUser(userRepository.findByUsername(principal.getName())));
             trip.get().setActive(true);
             trip.get().setStatus("В пути");
+
             tripRepository.save(trip.get());
 
             Driver driver = driverRepository.findByIdUser(userRepository.findByUsername(principal.getName()));
@@ -134,15 +139,15 @@ public class OrderController {
     @PostMapping("/waiting")
     public String orderCancel(Principal principal, @Payload ChatMessage chatMessage){
 
-        Optional<Trip> trip = Optional.of(tripRepository.findByUser(userRepository.findByUsername(principal.getName())));
+        List<Trip> trip = tripRepository.findByUser(userRepository.findByUsername(principal.getName()));
 
-        trip.get().setStatus("Отменен");
-        trip.get().setActive(false);
+        trip.get(0).setStatus("Отменен");
+        trip.get(0).setActive(false);
 
-        if(trip.get().getDriver() != null)
+        if(trip.get(0).getDriver() != null)
         {
-            chatMessage.setSender(userRepository.findById(trip.get().getDriver().getIdUser().getId()).get().getUsername());
-            trip.get().getDriver().setActiveOrder(false);
+            chatMessage.setSender(userRepository.findById(trip.get(0).getDriver().getIdUser().getId()).get().getUsername());
+            trip.get(0).getDriver().setActiveOrder(false);
         }
 
 
@@ -151,7 +156,7 @@ public class OrderController {
 
         this.template.convertAndSend("/topic/public", chatMessage);
 
-        tripRepository.save(trip.get());
+        tripRepository.save(trip.get(0));
         return "redirect:/user/history";
     }
 

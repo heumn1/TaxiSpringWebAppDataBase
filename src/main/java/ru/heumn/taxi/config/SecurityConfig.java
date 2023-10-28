@@ -35,7 +35,13 @@ public class SecurityConfig{
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll())
+                .exceptionHandling().accessDeniedPage("/accessDenied");
 
         return http.build();
     }
