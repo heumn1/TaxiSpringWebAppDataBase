@@ -26,7 +26,7 @@
                     <div sec:authorize="hasAuthority('USER')" >
                         <li class="nav-item">
                             <form th:method="POST" th:action="@{/account/history}">
-                                <button class="w-100 btn btn-lg btn-primary" type="submit">История заказов</button>
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">Мои заказы</button>
                             </form>
                         </li>
                         </br>
@@ -34,31 +34,27 @@
                     <div sec:authorize="hasAuthority('USER')" >
                         <li class="nav-item">
                             <form th:method="POST" th:action="@{/account/info}">
-                                <button class="w-100 btn btn-lg btn-primary" type="submit">Информация об аккаунте</button>
+                                <button class="w-100 btn btn-lg btn-primary" type="submit">об аккаунте</button>
                             </form>
                         </li>
                         </br>
                     </div>
-
                     <div sec:authorize="hasAuthority('DRIVER')" >
                         <li class="nav-item">
-                            <a class="w-100 btn btn-lg btn-primary" href="/driver/activeorder">Посмотреть действующий заказ</a>
+                            <a class="w-100 btn btn-lg btn-primary" href="/driver/activeorder">Действующий заказ</a>
                         </li>
                         </br>
                     </div>
-
                     <div sec:authorize="hasAuthority('ADMIN')" >
                         <li class="nav-item">
                             <form th:method="POST" th:action="@{/account/list}">
                                 <button class="w-100 btn btn-lg btn-primary" type="submit">Пользователи</button>
                             </form>
                         </li>
-                        </br>
                     </div>
                 </ul>
             </div>
         </nav>
-
 <!--        История заказов-->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div th:if="${History}" th:each="el : ${History}">
@@ -66,36 +62,33 @@
                     <div class="collapse navbar-collapse">
                         <ul class="navbar-nav me-auto mb-2 mb-md-0">
                             <li class="nav-item">
-                                <b class="nav-link active" th:text="'Тип такси: ' + ${el.type}">t1</b>
+                                <b class="nav-link active" th:text="'Тип такси: ' + ${el.type}"></b>
                             </li>
                             <li class="nav-item">
-                                <b class="nav-link active" th:text="'Способ оплаты: ' + ${el.paymentMethod}">t1</b>
+                                <b class="nav-link active" th:text="'Способ оплаты: ' + ${el.paymentMethod}"></b>
                             </li>
                             <b class="nav-item">
-                                <b class="nav-link active" th:text="'Начало маршрута: ' + ${el.addressStart}">t1</b>
+                                <b class="nav-link active" th:text="'Начало маршрута: ' + ${el.addressStart}"></b>
                             </b>
                             <b class="nav-item">
-                                <b class="nav-link active" th:text="'Конец маршрута: ' + ${el.addressFinish}">t1</b>
+                                <b class="nav-link active" th:text="'Конец маршрута: ' + ${el.addressFinish}"></b>
                             </b>
                             <b class="nav-item">
-                                <b class="nav-link active" th:text="'Цена: ' + ${el.price}">t1</b>
+                                <b class="nav-link active" th:text="'Цена: ' + ${el.price}"></b>
                             </b>
                             <b class="nav-item">
-                                <b class="nav-link active" th:text="'Статус: ' + ${el.status}">t1</b>
+                                <b class="nav-link active" th:text="'Статус: ' + ${el.status}"></b>
                             </b>
                             <b th:if="${el.driver != null}" class="nav-item">
-                                <b class="nav-link active" th:text="'Водитель: ' + ${el.driver.getLastName()}">t1</b>
+                                <b class="nav-link active" th:text="'Водитель: ' + ${el.driver.getLastName()}"></b>
                             </b>
                         </ul>
                     </div>
                 </div>
             </div>
-
             <div th:if="${NoHistory}">
                 <h1 class="card-title pricing-card-title" th:text="${NoHistory}"></h1>
             </div>
-
-
 <!--            Информация об аккаунте-->
             <div th:if="${UserInfo}" class="card mb-4 rounded-3 shadow-sm">
                 <div class="card-header py-3">
@@ -111,7 +104,6 @@
                     <h1 class="card-title pricing-card-title" th:text="${CarInfo.toString()}"></h1>
                 </div>
             </div>
-
 <!--            Список пользователей-->
             <div th:if="${users}">
                 <form th:method="POST" th:action="@{/account/listSet}">
@@ -142,7 +134,6 @@
                     </tbody>
                 </table>
             </div>
-
 <!--            Список водителей-->
             <div th:if="${drivers}">
                 <form th:method="POST" th:action="@{/account/list}">
@@ -184,7 +175,6 @@
                 </form>
                 <span class="display-2 text-center mb-4" th:text="${NoDrivers}"/> </br>
             </div>
-
 <!--            Назначить водителем-->
             <div th:if="${userToDriver}">
                 <form th:method="POST" th:action="@{/account/list}">
@@ -196,19 +186,19 @@
 
                 <form th:method="POST" class="form-inline" th:object="${Driver}" th:action="@{/account/listSet/{id}/set(id=${userToDriver.id})}">
                     <div class="form-group mb-2">
-                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">er</div>
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                             <label for="nametext" class="sr-only">Имя</label>
-                        <input th:field="*{firstName}" type="text" class="form-control" id="nametext" placeholder="Иван">
+                        <input th:field="*{firstName}" type="text" class="form-control" id="nametext">
                     </div>
                     <div class="form-group mb-2">
-                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">er</div>
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                         <label for="lastnametext" class="sr-only">Фамилия</label>
-                        <input th:field="*{lastName}" type="text" class="form-control" id="lastnametext" placeholder="Иванов">
+                        <input th:field="*{lastName}" type="text" class="form-control" id="lastnametext">
                     </div>
                     <div class="form-group mb-2">
-                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}">er</div>
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}"></div>
                         <label for="patronymictext" class="sr-only">Отчество</label>
-                        <input th:field="*{patronymic}" type="text" class="form-control" id="patronymictext" placeholder="Иванович">
+                        <input th:field="*{patronymic}" type="text" class="form-control" id="patronymictext">
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Подтвердить</button>
                 </form>
@@ -224,24 +214,24 @@
                     <div class="form-group mb-2">
                         <div class="form-label" style="color:red" th:if="${#fields.hasErrors('height')}" th:errors="*{height}">er</div>
                         <label for="htext" class="sr-only">Высота</label>
-                        <input th:field="*{height}" type="text" class="form-control" id="htext" placeholder="160" required>
+                        <input th:field="*{height}" type="text" class="form-control" id="htext" required>
                     </div>
                     <div class="form-group mb-2">
                         <div class="form-label" style="color:red" th:if="${#fields.hasErrors('seats')}" th:errors="*{seats}">er</div>
                         <label for="stext" class="sr-only">Колличество мест</label>
-                        <input th:field="*{seats}" type="text" class="form-control" id="stext" placeholder="5" required>
+                        <input th:field="*{seats}" type="text" class="form-control" id="stext" required>
                     </div>
                     <div class="form-group mb-2">
                         <div class="form-label" style="color:red" th:if="${#fields.hasErrors('model')}" th:errors="*{model}">er</div>
                         <label for="Mtext" class="sr-only">Модель</label>
-                        <input th:field="*{model}" type="text" class="form-control" id="Mtext" placeholder="Москвич" required>
+                        <input th:field="*{model}" type="text" class="form-control" id="Mtext" required>
                     </div>
                     <div class="form-group mb-2">
                         <div class="form-label" style="color:red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">er</div>
                         <label for="Ntext" class="sr-only">Номер</label>
-                        <input th:field="*{number}" type="text" class="form-control" id="Ntext" placeholder="Ш000ПК136" required>
+                        <input th:field="*{number}" type="text" class="form-control" id="Ntext" required>
                     </div>
-                    <div class="form-label" style="color:red" th:errors="*{type}">error</div>
+                    <div class="form-label" style="color:red" th:errors="*{type}"></div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="Эконом" th:field="*{type}" value="Эконом" class="custom-control-input" name="buttons" required>
                         <label class="custom-control-label" for="Эконом" >Эконом</label> </br>
@@ -253,8 +243,6 @@
                     <button type="submit" class="btn btn-primary mb-2">Подтвердить</button>
                 </form>
             </div>
-
-
         </main>
     </ma>
 </div>

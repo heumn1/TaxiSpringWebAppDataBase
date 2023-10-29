@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -20,7 +20,7 @@
             <h4 class="mb-3">Тип заказа:</h4>
             <form class="needs-validation" th:action="@{/order}" th:object="${Trip}" th:method="POST">
                 <fieldset id="buttons">
-                    <div class="form-label" style="color:red" th:errors="*{type}">error</div>
+                    <div class="form-label" style="color:red" th:errors="*{type}"></div>
                     <div class="custom-control custom-radio custom-control-inline">
                         <input type="radio" id="Эконом" th:field="*{type}" value="Эконом" class="custom-control-input" name="buttons" required>
                         <label class="custom-control-label" for="Эконом" >Эконом</label> </br>
@@ -33,28 +33,28 @@
                 <hr class="mb-4">
                 <h4 class="mb-3">От куда поедем:</h4>
                 <div class="mb-3">
-                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('addressStart')}" th:errors="*{addressStart}">error</div>
+                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('addressStart')}" th:errors="*{addressStart}"></div>
                     <input type="text" class="form-control" th:field="*{addressStart}" id="addressStart" required>
                 </div>
                 </hr>
                 <hr class="mb-4">
                 <h4 class="mb-3">Куда поедем:</h4>
                 <div class="mb-3">
-                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('addressFinish')}" th:errors="*{addressFinish}">error</div>
+                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('addressFinish')}" th:errors="*{addressFinish}"></div>
                     <input type="text" class="form-control" th:field="*{addressFinish}" id="addressFinish" required>
                 </div>
                 </hr>
                 <hr class="mb-4">
                 <h4 class="mb-3">Поставьте желаемую цену:</h4>
                 <div class="mb-3">
-                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">error</div>
+                    <div class="form-label" style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
                     <input type="text" class="form-control" th:field="*{price}" id="price" required>
                 </div>
                 </hr>
                 <hr class="mb-4">
                 <h4 class="mb-3">Payment</h4>
                 <div class="d-block my-3">
-                    <div class="form-label" style="color:red" th:errors="*{paymentMethod}">error</div>
+                    <div class="form-label" style="color:red" th:errors="*{paymentMethod}"></div>
                     <div class="custom-control custom-radio">
                         <input id="credit" name="paymentMethod" th:field="*{paymentMethod}" value="cardOffline" type="radio" class="custom-control-input" checked="" required="">
                         <label class="custom-control-label" for="credit">Картой при получении</label>

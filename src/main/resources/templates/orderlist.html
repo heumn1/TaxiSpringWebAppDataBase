@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Список заказов</title>
@@ -15,22 +14,22 @@
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <b class="nav-link active" th:text="'Тип такси: ' + ${el.type}">t1</b>
+                    <b class="nav-link active" th:text="'Тип такси: ' + ${el.type}"></b>
                 </li>
                 <li class="nav-item">
-                    <b class="nav-link active" th:text="'Способ оплаты: ' + ${el.paymentMethod}">t1</b>
+                    <b class="nav-link active" th:text="'Способ оплаты: ' + ${el.paymentMethod}"></b>
                 </li>
                 <b class="nav-item">
-                    <b class="nav-link active" th:text="'Начало маршрута: ' + ${el.addressStart}">t1</b>
+                    <b class="nav-link active" th:text="'Начало маршрута: ' + ${el.addressStart}"></b>
                 </b>
                 <b class="nav-item">
-                    <b class="nav-link active" th:text="'Конец маршрута: ' + ${el.addressFinish}">t1</b>
+                    <b class="nav-link active" th:text="'Конец маршрута: ' + ${el.addressFinish}"></b>
                 </b>
                 <b class="nav-item">
-                    <b class="nav-link active" th:text="'Цена: ' + ${el.price}">t1</b>
+                    <b class="nav-link active" th:text="'Цена: ' + ${el.price}"></b>
                 </b>
                 <b class="nav-item">
-                    <b class="nav-link active" th:text="'Пользователь: ' + ${el.user.username}">t1</b>
+                    <b class="nav-link active" th:text="'Пользователь: ' + ${el.user.username}"></b>
                 </b>
             </ul>
         </div>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,11 +13,11 @@
     <div id="searchDriver">
         <span class="display-4 fw-normal text-body-emphasis" th:text="${noOrder}"/> </br>
         <div th:if="${trip != null}">
-            <span class="display-6 text-center mb-4" th:text="'Начало маршрута:' + ${trip?.addressStart}"/> </br>
-            <span class="display-6 text-center mb-4" th:text="'Конец маршрута:' + ${trip?.addressFinish}"/> </br>
-            <span class="display-6 text-center mb-4" th:text="'Способ оплаты:' + ${trip?.paymentMethod}"/> </br>
+            <span class="display-6 text-center mb-4" th:text="'Начало маршрута:' + ${trip?.addressStart}"/></br>
+            <span class="display-6 text-center mb-4" th:text="'Конец маршрута:' + ${trip?.addressFinish}"/></br>
+            <span class="display-6 text-center mb-4" th:text="'Способ оплаты:' + ${trip?.paymentMethod}"/></br>
             <span class="display-6 text-center mb-4" th:text="'Цена:' + ${trip?.price}"/> </br>
-            <span class="display-6 text-center mb-4" th:text="'Заказчик:' + ${trip?.user?.username}"/> </br>
+            <span class="display-6 text-center mb-4" th:text="'Заказчик:' + ${trip?.user?.username}"/></br>
             <form th:action="@{/driver/activeorder/{id} (id=${trip?.id})}" th:method="POST">
                 <button type="submit">Завершить поездку</button>
             </form>

@@ -157,7 +157,7 @@ public class OrderController {
         this.template.convertAndSend("/topic/public", chatMessage);
 
         tripRepository.save(trip.get(0));
-        return "redirect:/user/history";
+        return "redirect:/account/history";
     }
 
 }
