@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.heumn.taxi.domain.Driver;
-import ru.heumn.taxi.domain.Role;
-import ru.heumn.taxi.domain.Trip;
-import ru.heumn.taxi.domain.User;
+import ru.heumn.taxi.domain.*;
 import ru.heumn.taxi.repos.CarRepository;
 import ru.heumn.taxi.repos.DriverRepository;
 import ru.heumn.taxi.repos.TripRepository;
@@ -104,7 +102,7 @@ public class AccountController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/listSet/{id}")
-    public String getLisSettUsers(Model model, @PathVariable Long id){
+    public String getSetUsers(@ModelAttribute("Driver") Driver driver, Model model, @PathVariable Long id){
 
         Optional<User> user =  userRepository.findById(id);
 
@@ -114,7 +112,6 @@ public class AccountController {
             roleSet.add(Role.DRIVER);
 
             user.get().setRoles(roleSet);
-
         }
 
         Optional<User> userToDriver = userRepository.findById(id);
@@ -122,13 +119,88 @@ public class AccountController {
 
         return "account";
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/listSet/{id}/set")
+    public String setUserToDriver(@ModelAttribute("Driver") @Valid Driver driver, @ModelAttribute("SetCar") Car car, BindingResult bindingResult, @PathVariable Long id, Model model){
 
+        driver.setId(null);
+
+        if(bindingResult.hasErrors()){
+            Optional<User> userToDriver = userRepository.findById(id);
+            model.addAttribute("userToDriver", userToDriver.get());
+            return "account";
+        }
+
+        if(userRepository.findById(id).isPresent())
+        {
+            driver.setIdUser(userRepository.findById(id).get());
+            driver.setActiveOrder(false);
+
+            driverRepository.save(driver);
+
+            if(driverRepository.findByIdUser(userRepository.findById(id).get()) != null)
+            {
+                model.addAttribute("setCarToDriverId", userRepository.findById(id).get());
+                model.addAttribute("setCarToDriver", driverRepository.findByIdUser(userRepository.findById(id).get()));
+                return "account";
+            }
+        }
+        return "account";
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/listSet/{id}/setCar")
+    public String setCarToDriver(@ModelAttribute("SetCar") Car car, @PathVariable Long id, Model model){
+
+
+        if(driverRepository.findByIdUser(userRepository.findById(id).get()) != null)
+        {
+            model.addAttribute("setCarToDriver", driverRepository.findByIdUser(userRepository.findById(id).get()));
+            return "account";
+        }
+
+        List<User> users =  userRepository.findAll();
+        model.addAttribute("users", users);
+
+        return "account";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/listSet/{id}/setCar/apply")
+    public String setCarToDriverApply(@Valid Car car, @PathVariable Long id, Model model){
+
+        if(driverRepository.findByIdUser(userRepository.findById(id).get()) != null)
+        {
+            car.setDriver(driverRepository.findByIdUser(userRepository.findById(id).get()));
+
+            Driver driver = driverRepository.findByIdUser(userRepository.findById(id).get());
+            driver.setPresent(true);
+
+            User user = userRepository.findById(id).get();
+            user.getRoles().add(Role.DRIVER);
+
+            userRepository.save(user);
+            carRepository.save(car);
+            driverRepository.save(driver);
+        }
+
+        List<User> users =  userRepository.findAll();
+        model.addAttribute("users", users);
+
+        return "account";
+    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/drivers")
     public String getListDrivers(Model model){
 
-        Iterable<Driver> drivers =  driverRepository.findAll();
+        if(!driverRepository.findAll().iterator().hasNext())
+        {
+            model.addAttribute("NoDrivers", "В данный момент водителей нет");
+            return "account";
+        }
+
+        Iterable<Driver> drivers = driverRepository.findAll();
+
         model.addAttribute("CarRepository", carRepository);
         model.addAttribute("drivers", drivers);
 
@@ -144,11 +216,14 @@ public class AccountController {
         usersDriver = new ArrayList<>();
 
         StreamSupport.stream(drivers.spliterator(), false)
-                        .forEach(driver -> usersDriver.add(userRepository.findById(driver.getId()).get()));
+                        .forEach(driver -> usersDriver.add(userRepository.findById(driver.getIdUser().getId()).get()));
+
+        System.out.println(usersDriver);
 
         driverList = new ArrayList<>();
 
         usersDriver.forEach(this::setDrivers);
+        System.out.println(driverList);
 
 
         model.addAttribute("CarRepository", carRepository);
@@ -176,8 +251,6 @@ public class AccountController {
                         .filter(role -> role != Role.DRIVER)
                         .collect(Collectors.toSet());
 
-                System.out.println(user);
-
                 user.get().setRoles(rolesUser);
                 userRepository.save(user.get());
             }
@@ -193,9 +266,10 @@ public class AccountController {
 
     private void setDrivers(User user)
     {
-
+        System.out.println(user.getRoles());
         if(user.getRoles().contains(Role.DRIVER))
         {
+            System.out.println(user);
             driverList.add(driverRepository.findByIdUser(user));
         }
     }

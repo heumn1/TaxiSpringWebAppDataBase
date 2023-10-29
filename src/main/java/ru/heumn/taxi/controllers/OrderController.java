@@ -82,7 +82,7 @@ public class OrderController {
         return "waiting";
     }
 
-    @PreAuthorize("hasRole('DRIVER')")
+    @PreAuthorize("hasAuthority('DRIVER')")
     @GetMapping("/orderlist")
     public String orderlist(Model model, @ModelAttribute("Trip") Trip trip, Principal principal){
 
@@ -107,7 +107,7 @@ public class OrderController {
         return "orderlist";
     }
 
-    @PreAuthorize("hasRole('DRIVER')")
+    @PreAuthorize("hasAuthority('DRIVER')")
     @PostMapping("/orderlist/{id}")
     public String orderSubmit(@PathVariable Long id, Principal principal,@Payload ChatMessage chatMessage){
         Optional<Trip> trip = tripRepository.findById(id);

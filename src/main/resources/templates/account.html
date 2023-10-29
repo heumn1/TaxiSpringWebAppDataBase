@@ -91,19 +91,24 @@
                 </div>
             </div>
 
+            <div th:if="${NoHistory}">
+                <h1 class="card-title pricing-card-title" th:text="${NoHistory}"></h1>
+            </div>
+
 
 <!--            Информация об аккаунте-->
             <div th:if="${UserInfo}" class="card mb-4 rounded-3 shadow-sm">
                 <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal" th:value="${UserInfo.username}"></h4>
+                    <h4 class="my-0 fw-normal" th:text="${UserInfo.username}"></h4>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title" th:value="${UserInfo.email}"></h1>
+                    <h1 class="card-title pricing-card-title" th:text="${UserInfo.email}"></h1>
                 </div>
                 <div th:if="${DriverInfo}" class="card-body">
-                    <h1 class="card-title pricing-card-title" th:value="${DriverInfo.getFirstName()}"></h1>
-                    <h1 class="card-title pricing-card-title" th:value="${DriverInfo.getLastName()}"></h1>
-                    <h1 class="card-title pricing-card-title" th:value="${CarInfo.toString()}"></h1>
+                    <h1 class="card-title pricing-card-title" th:text="${DriverInfo.getFirstName()}"></h1>
+                    <h1 class="card-title pricing-card-title" th:text="${DriverInfo.getLastName()}"></h1>
+                    <h1 class="card-title pricing-card-title" th:text="${DriverInfo.getPatronymic()}"></h1>
+                    <h1 class="card-title pricing-card-title" th:text="${CarInfo.toString()}"></h1>
                 </div>
             </div>
 
@@ -153,6 +158,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Имя</th>
                         <th scope="col">Фамилия</th>
+                        <th scope="col">Отчетсво</th>
+                        <th scope="col">Активность</th>
                         <th scope="col">Машина</th>
                         <th th:if="${deleteDriver}" scope="col">Удалить водителя</th>
                     </tr>
@@ -162,11 +169,20 @@
                         <td th:text="${driver.id}"></td>
                         <td th:text="${driver.firstName}"></td>
                         <td th:text="${driver.lastName}"></td>
+                        <td th:text="${driver.patronymic}"></td>
+                        <td th:text="${driver.present}"></td>
                         <td th:text="${driver.GetCar(CarRepository)}"></td>
                         <td th:if="${deleteDriver}"><form th:method="POST" th:action="@{/account/drivers/delete/{id}(id=${driver.id})}"><button type="submit" class="btn btn-primary">Удалить</button></form></td>
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <!--            нет водителей-->
+            <div th:if="${NoDrivers}">
+                <form th:method="POST" th:action="@{/account/list}">
+                    <button type="submit" class="btn btn-primary">Вернуться</button>
+                </form>
+                <span class="display-2 text-center mb-4" th:text="${NoDrivers}"/> </br>
             </div>
 
 <!--            Назначить водителем-->
@@ -175,23 +191,69 @@
                     <button type="submit" class="btn btn-primary">Вернуться</button>
                 </form>
                 </br>
-                <span class="display-6 text-center mb-4" th:text="'Email:' + ${userToDriver.email}"/> </br>
-                <span class="display-6 text-center mb-4" th:text="'username:' + ${userToDriver.email}"/> </br>
+                <span class="display-2 text-center mb-4" th:text="'Вы собираетесь назначить пользователя ' + ${userToDriver.username} + ' водителем'"/> </br>
+                <span class="display-6 text-center mb-4" th:text="'Email пользователя:' + ${userToDriver.email}"/> </br>
 
-                <form class="form-inline">
+                <form th:method="POST" class="form-inline" th:object="${Driver}" th:action="@{/account/listSet/{id}/set(id=${userToDriver.id})}">
                     <div class="form-group mb-2">
-                        <label class="sr-only">Имя</label>
-                        <input type="text" readonly class="form-control-plaintext" >
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">er</div>
+                            <label for="nametext" class="sr-only">Имя</label>
+                        <input th:field="*{firstName}" type="text" class="form-control" id="nametext" placeholder="Иван">
                     </div>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <label for="inputPassword2" class="sr-only">Password</label>
-                        <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+                    <div class="form-group mb-2">
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">er</div>
+                        <label for="lastnametext" class="sr-only">Фамилия</label>
+                        <input th:field="*{lastName}" type="text" class="form-control" id="lastnametext" placeholder="Иванов">
                     </div>
-                    <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+                    <div class="form-group mb-2">
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}">er</div>
+                        <label for="patronymictext" class="sr-only">Отчество</label>
+                        <input th:field="*{patronymic}" type="text" class="form-control" id="patronymictext" placeholder="Иванович">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Подтвердить</button>
                 </form>
-
-
             </div>
+            <!--                назначить машину-->
+            <div th:if="${SetCar}">
+                <form th:method="POST" th:action="@{/account/list}">
+                    <button type="submit" class="btn btn-primary">Вернуться</button>
+                </form>
+                </br>
+                <span class="display-2 text-center mb-4" th:text="'Вы собираетесь назначить машину водителю ' + ${setCarToDriver.lastName}"/> </br>
+                <form th:method="POST" class="form-inline" th:object="${SetCar}" th:action="@{/account/listSet/{id}/setCar/apply(id=${setCarToDriverId.id})}">
+                    <div class="form-group mb-2">
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('height')}" th:errors="*{height}">er</div>
+                        <label for="htext" class="sr-only">Высота</label>
+                        <input th:field="*{height}" type="text" class="form-control" id="htext" placeholder="160" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('seats')}" th:errors="*{seats}">er</div>
+                        <label for="stext" class="sr-only">Колличество мест</label>
+                        <input th:field="*{seats}" type="text" class="form-control" id="stext" placeholder="5" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('model')}" th:errors="*{model}">er</div>
+                        <label for="Mtext" class="sr-only">Модель</label>
+                        <input th:field="*{model}" type="text" class="form-control" id="Mtext" placeholder="Москвич" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <div class="form-label" style="color:red" th:if="${#fields.hasErrors('number')}" th:errors="*{number}">er</div>
+                        <label for="Ntext" class="sr-only">Номер</label>
+                        <input th:field="*{number}" type="text" class="form-control" id="Ntext" placeholder="Ш000ПК136" required>
+                    </div>
+                    <div class="form-label" style="color:red" th:errors="*{type}">error</div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="Эконом" th:field="*{type}" value="Эконом" class="custom-control-input" name="buttons" required>
+                        <label class="custom-control-label" for="Эконом" >Эконом</label> </br>
+                        <input type="radio" id="Люкс" th:field="*{type}" value="Люкс" class="custom-control-input" name="buttons">
+                        <label class="custom-control-label" for="Люкс" >Люкс</label> </br>
+                        <input type="radio" id="Грузовой" th:field="*{type}" value="Грузовой" class="custom-control-input" name="buttons">
+                        <label class="custom-control-label" for="Грузовой">Грузовой</label> </br>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Подтвердить</button>
+                </form>
+            </div>
+
 
         </main>
     </ma>

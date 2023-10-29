@@ -70,6 +70,6 @@ public class DriverController {
         driverRepository.save(driver);
         tripRepository.save(trip);
 
-        return "redirect:/driver/history";
+        return "redirect:/account/history";
     }
 }

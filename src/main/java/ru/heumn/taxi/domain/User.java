@@ -22,7 +22,6 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
     @NotEmpty(message = "Поле не должно быть пустым")
-    @Size(min = 8, max = 30, message = "пароль не должен быть меньше 8 и быть больше 30")
     private String password;
     private boolean active;
     @NotEmpty(message = "Поле не должно быть пустым")

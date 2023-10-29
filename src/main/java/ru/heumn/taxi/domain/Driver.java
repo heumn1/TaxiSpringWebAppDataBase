@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import ru.heumn.taxi.repos.CarRepository;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -26,22 +28,25 @@ public class Driver {
     Long id;
 
     @Column(name = "First_Name")
-    @Max(value = 20, message = "Имя не должна быть больше 20 символов")
-    @Min(value = 2, message = "Имя не должна быть меньше 2 символов")
-    String FirstName;
-
+    @Size(min = 2, max = 30, message = "Имя не должен быть меньше 2 и быть больше 30")
+    String firstName;
 
     @Column(name = "Last_Name")
-    @Max(value = 20, message = "Фамилия не должна быть больше 20 символов")
-    @Min(value = 2, message = "Фамилия не должна быть меньше 2 символов")
-    String LastName;
+    @Size(min = 2, max = 30, message = "Фамилия не должен быть меньше 2 и быть больше 30")
+    String lastName;
+
+    @Column(name = "Patronymic")
+    @Size(min = 2, max = 30, message = "Отчество не должен быть меньше 2 и быть больше 30")
+    String patronymic;
 
     @OneToOne
     User idUser;
 
-
     @Column(name = "active_order")
     boolean activeOrder;
+
+    @Column(name = "present_driver")
+    boolean present;
 
     public Car GetCar(CarRepository carRepository){
        return carRepository.findByDriver_Id(this.id);
