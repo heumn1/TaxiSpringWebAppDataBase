@@ -28,15 +28,15 @@ public class Driver {
     Long id;
 
     @Column(name = "First_Name")
-    @Size(min = 2, max = 30, message = "Имя не должен быть меньше 2 и быть больше 30")
+    @Size(min = 2, max = 30, message = "Ошибка! Имя не должен быть меньше 2 и быть больше 30")
     String firstName;
 
     @Column(name = "Last_Name")
-    @Size(min = 2, max = 30, message = "Фамилия не должен быть меньше 2 и быть больше 30")
+    @Size(min = 2, max = 30, message = "Ошибка! Фамилия не должен быть меньше 2 и быть больше 30")
     String lastName;
 
     @Column(name = "Patronymic")
-    @Size(min = 2, max = 30, message = "Отчество не должен быть меньше 2 и быть больше 30")
+    @Size(min = 2, max = 30, message = "Ошибка! Отчество не должен быть меньше 2 и быть больше 30")
     String patronymic;
 
     @OneToOne

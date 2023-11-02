@@ -28,9 +28,9 @@ public class Trip {
     @ManyToOne
     Driver driver;
 
-    @NotNull(message = "указать цену")
-    @Min(value = 150, message = "Минимальная цена дожна быть 150 рублей")
-    @Max(value = 2000, message = "Максимальная цена не должна превыщать 2000 рублей")
+    @NotNull(message = "укажите цену")
+    @Min(value = 150, message = "Ошибка! Минимальная цена дожна быть 150 рублей")
+    @Max(value = 2500, message = "Ошибка! Максимальная цена не должна превыщать 2000 рублей")
     Integer price;
 
     Boolean active;
@@ -38,18 +38,18 @@ public class Trip {
     String status;
 
     @Column(name = "type_car")
-    @NotEmpty(message = "Вы должны выбрать тип заказываемого вами такси")
+    @NotEmpty(message = "Ошибка! Вы должны выбрать тип заказываемого вами такси")
     String type;
 
-    @NotEmpty(message = "Поле не должно быть пустым")
+    @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
     @Column(name = "address_start_trip")
     String addressStart;
 
-    @NotEmpty(message = "Поле не должно быть пустым")
+    @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
     @Column(name = "address_finish_trip")
     String addressFinish;
 
-    @NotEmpty(message = "Вы должны выбрать способо оплаты")
+    @NotEmpty(message = "Ошибка! Вы должны выбрать способо оплаты")
     @Column(name = "payment_method")
     String paymentMethod;
 

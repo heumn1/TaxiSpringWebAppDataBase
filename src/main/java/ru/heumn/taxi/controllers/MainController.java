@@ -1,6 +1,8 @@
 package ru.heumn.taxi.controllers;
 
+import jakarta.persistence.Table;
 import jakarta.servlet.http.HttpSession;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -20,6 +22,8 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
+@ToString
+
 public class MainController {
     @Autowired
     UserRepository userRepository;
@@ -32,6 +36,11 @@ public class MainController {
     @GetMapping("/")
     public String index() {
         return "index";
+    }
+
+    @GetMapping("/about")
+    public String about(){
+        return "about";
     }
 
     @MessageMapping("/chat.sendMessage")

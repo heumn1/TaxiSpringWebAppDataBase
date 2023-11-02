@@ -56,7 +56,7 @@ public class OrderController {
     }
 
     @PostMapping()
-    public String order(@Valid Trip trip, BindingResult bindingResult, Principal principal) {
+    public String order(@ModelAttribute("Trip") @Valid Trip trip, BindingResult bindingResult, Principal principal) {
 
         if (bindingResult.hasErrors())
         {

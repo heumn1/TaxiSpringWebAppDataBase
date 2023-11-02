@@ -45,6 +45,12 @@
                         </li>
                         </br>
                     </div>
+                    <div sec:authorize="hasAuthority('DRIVER')" >
+                        <li class="nav-item">
+                            <a class="w-100 btn btn-lg btn-primary" href="/order/orderlist">Поиск заказа</a>
+                        </li>
+                        </br>
+                    </div>
                     <div sec:authorize="hasAuthority('ADMIN')" >
                         <li class="nav-item">
                             <form th:method="POST" th:action="@{/account/list}">

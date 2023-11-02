@@ -14,21 +14,33 @@ import java.util.Set;
 @ToString
 @Table(name = "usr")
 public class User implements UserDetails {
+
+    //id пользователя
     @Id
     @GeneratedValue(strategy  = GenerationType.SEQUENCE)
     private Long id;
-    @NotEmpty(message = "Поле не должно быть пустым")
-    @Size(min = 2, max = 30, message = "Ваше имя не должен быть меньше 2 и быть больше 30")
+
+    //Поле никнейма пользователя
+    @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
+    @Size(min = 2, max = 30, message = "Ошибка! Ваше имя не должен быть меньше 2 и быть больше 30")
     @Column(unique = true)
     private String username;
-    @NotEmpty(message = "Поле не должно быть пустым")
+
+    //Поле пароля пользователя
+    @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
     private String password;
+
+    //Если ли доступ к системе у пользовтеля
     private boolean active;
-    @NotEmpty(message = "Поле не должно быть пустым")
+
+    //Поле электронной почты пользователя
+    @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
     @Column(unique = true)
     private String email;
-    @NotEmpty(message = "Поле не должно быть пустым")
-    @Size(min = 11, max = 11, message = "ошибка в поле number")
+
+    //Поле номера телефона
+    @NotEmpty(message = "Ошибка! Поле не должно быть пустым")
+    @Size(min = 11, max = 11, message = "Ошибка в поле number")
     @Column(unique = true)
     private String number;
 
