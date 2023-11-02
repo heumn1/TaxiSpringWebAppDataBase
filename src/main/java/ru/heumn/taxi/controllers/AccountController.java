@@ -94,7 +94,7 @@ public class AccountController {
                 .filter(user -> !user.getRoles().contains(Role.DRIVER))
                 .collect(Collectors.toList());
 
-        model.addAttribute("SetUsersToDriver", "Set");
+        model.addAttribute("SetUsersToDriver", "Добавление роли водителя выбранному пользователю");
         model.addAttribute("users", users);
 
         return "account";

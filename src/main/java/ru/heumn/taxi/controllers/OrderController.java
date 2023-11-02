@@ -99,7 +99,7 @@ public class OrderController {
 
 
         if(trips.isEmpty()){
-            model.addAttribute("noOrders", "Заказов нет");
+            model.addAttribute("noOrders", "Заказов пока нет");
         }
         else{
             model.addAttribute("trips", trips);
@@ -126,7 +126,7 @@ public class OrderController {
 
 
             chatMessage.setSender(trip.get().getUser().getUsername());
-            chatMessage.setContent("Водитель принял заказ! \n" + carRepository.findByDriver_Id(driver.getId()).toString());
+            chatMessage.setContent("Водитель принял ваш заказ! \n" + carRepository.findByDriver_Id(driver.getId()).toString());
             chatMessage.setType("RESPONSE");
 
             this.template.convertAndSend("/topic/public", chatMessage);

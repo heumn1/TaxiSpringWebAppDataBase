@@ -60,7 +60,7 @@ public class MainController {
 
         try {
             if (error.isEmpty()) {
-                error = "Неправильный логин или пароль";
+                error = "Неправильный логин или пароль, Повторите попытку";
             }
         } catch (Exception ignored) {
         }
@@ -73,6 +73,11 @@ public class MainController {
         String sessionId = session.getId();
         System.out.println(sessionId);
         List<Trip> trips = tripRepository.findByDriver_IdIsNull();
+
+        List<User> user = userRepository.findAll();
+
+        user.stream().
+                forEach((k) -> {System.out.println(k + "\n ________________");});
 
         trips.stream()
                 .forEach((k) -> {System.out.println(k + "\n ________________");});
